@@ -33,7 +33,7 @@ namespace ParticleEngine
         [STAThread]
         private static void Main()
         {
-            using (ParticleTest game = new ParticleTest())
+            using (ParticleTestWindow game = new ParticleTestWindow())
             {
                 game.Run();
             }

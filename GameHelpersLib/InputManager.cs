@@ -27,13 +27,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GameHelpersLib
 {
+    public enum MouseButtons
+    {
+        Left, Right, Middle
+    }
+
     public class InputManager
     {
-        public delegate void MouseClickDelegate(Vector2 clickPosition, bool wasSingleClick);
-
-        public event MouseClickDelegate OnMouse1Press;
-        public event MouseClickDelegate OnMouse1Release;
-
         private KeyboardState currentKeyboardState;
         private KeyboardState previousKeyboardState;
         private MouseState currentMouseState;
@@ -63,56 +63,105 @@ namespace GameHelpersLib
             }
         }
 
+        public bool UpdateKeyboardState { get; set; }
+        public bool UpdateMouseState { get; set; }
+
         public InputManager()
         {
             currentKeyboardState = new KeyboardState();
             previousKeyboardState = new KeyboardState();
             currentMouseState = new MouseState();
             previousMouseState = new MouseState();
+
+            UpdateKeyboardState = true;
+            UpdateMouseState = true;
         }
 
         public void Update()
         {
-            previousKeyboardState = currentKeyboardState;
-            previousMouseState = currentMouseState;
-
-            currentKeyboardState = Keyboard.GetState();
-            currentMouseState = Mouse.GetState();
-
-            if (OnMouse1Press != null && currentMouseState.LeftButton == ButtonState.Pressed)
+            if (UpdateKeyboardState)
             {
-                OnMouse1Press(GetMousePos(), previousMouseState.LeftButton == ButtonState.Released);
+                previousKeyboardState = currentKeyboardState;
+                currentKeyboardState = Keyboard.GetState();
             }
 
-            if (OnMouse1Release != null && currentMouseState.LeftButton == ButtonState.Released && previousMouseState.LeftButton == ButtonState.Pressed)
+            if (UpdateMouseState)
             {
-                OnMouse1Release(GetMousePos(), true);
+                previousMouseState = currentMouseState;
+                currentMouseState = Mouse.GetState();
             }
         }
 
-        public bool IsKeyDown(Keys key, bool once = false)
+        public bool IsKeyDown(Keys key, bool isFirst = false)
         {
-            if (once)
-            {
-                return currentKeyboardState.IsKeyDown(key) && previousKeyboardState.IsKeyUp(key);
-            }
-
-            return currentKeyboardState.IsKeyDown(key);
+            bool result = currentKeyboardState.IsKeyDown(key);
+            if (isFirst) result &= previousKeyboardState.IsKeyUp(key);
+            return result;
         }
 
-        public bool IsKeyUp(Keys key, bool once = false)
+        public bool IsKeyUp(Keys key, bool isFirst = false)
         {
-            if (once)
-            {
-                return currentKeyboardState.IsKeyUp(key) && previousKeyboardState.IsKeyDown(key);
-            }
-
-            return currentKeyboardState.IsKeyUp(key);
+            bool result = currentKeyboardState.IsKeyUp(key);
+            if (isFirst) result &= previousKeyboardState.IsKeyDown(key);
+            return result;
         }
 
-        public Vector2 GetMousePos()
+        public bool IsMouseDown(MouseButtons button, bool isFirst = false)
+        {
+            bool result;
+
+            switch (button)
+            {
+                default:
+                case MouseButtons.Left:
+                    result = currentMouseState.LeftButton == ButtonState.Pressed;
+                    if (isFirst) result &= previousMouseState.LeftButton == ButtonState.Released;
+                    break;
+                case MouseButtons.Right:
+                    result = currentMouseState.RightButton == ButtonState.Pressed;
+                    if (isFirst) result &= previousMouseState.RightButton == ButtonState.Released;
+                    break;
+                case MouseButtons.Middle:
+                    result = currentMouseState.MiddleButton == ButtonState.Pressed;
+                    if (isFirst) result &= previousMouseState.MiddleButton == ButtonState.Released;
+                    break;
+            }
+
+            return result;
+        }
+
+        public bool IsMouseUp(MouseButtons button, bool isFirst = false)
+        {
+            bool result;
+
+            switch (button)
+            {
+                default:
+                case MouseButtons.Left:
+                    result = currentMouseState.LeftButton == ButtonState.Released;
+                    if (isFirst) result &= previousMouseState.LeftButton == ButtonState.Pressed;
+                    break;
+                case MouseButtons.Right:
+                    result = currentMouseState.RightButton == ButtonState.Released;
+                    if (isFirst) result &= previousMouseState.RightButton == ButtonState.Pressed;
+                    break;
+                case MouseButtons.Middle:
+                    result = currentMouseState.MiddleButton == ButtonState.Released;
+                    if (isFirst) result &= previousMouseState.MiddleButton == ButtonState.Pressed;
+                    break;
+            }
+
+            return result;
+        }
+
+        public Vector2 GetMousePosition()
         {
             return new Vector2(currentMouseState.X, currentMouseState.Y);
+        }
+
+        public void SetMousePosition(Vector2 pos)
+        {
+            Mouse.SetPosition((int)pos.X, (int)pos.Y);
         }
     }
 }

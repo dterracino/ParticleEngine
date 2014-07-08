@@ -30,17 +30,17 @@ using System;
 
 namespace ParticleEngine
 {
-    public class ParticleTest : Game
+    public class ParticleTestWindow : Game
     {
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
+        private InputManager inputManager;
         private FrameRateCounter frameRateCounter;
-        private GlowParticleSystem testParticleSystem;
-        private MouseState mouseState;
         private SpriteFont font;
-        private XNAConsole console;
+        private GameConsole console;
+        private ParticleSystem particleSystem;
 
-        public ParticleTest()
+        public ParticleTestWindow()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
@@ -49,14 +49,18 @@ namespace ParticleEngine
             IsMouseVisible = true;
             Window.Title = "Particle Test";
 
-            console = new XNAConsole(this);
-            Components.Add(console);
+            inputManager = new InputManager();
 
             frameRateCounter = new FrameRateCounter(this, new Vector2(10, 10), Color.White, Color.Black);
             Components.Add(frameRateCounter);
 
-            testParticleSystem = new GlowParticleSystem(this);
-            Components.Add(testParticleSystem);
+            console = new GameConsole(this, inputManager);
+            Components.Add(console);
+
+            //particleSystem = new GlowParticleSystem(this);
+            //particleSystem = new PlasmaParticleSystem(this);
+            particleSystem = new SpiralParticleSystem(this);
+            Components.Add(particleSystem);
         }
 
         /// <summary>
@@ -104,17 +108,16 @@ namespace ParticleEngine
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            inputManager.Update();
+
+            if (inputManager.IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            mouseState = Mouse.GetState();
-
-            if (IsActive && mouseState.LeftButton == ButtonState.Pressed)
+            if (IsActive && inputManager.IsMouseDown(MouseButtons.Left))
             {
-                //testParticleSystem.Emit(gameTime, new Vector2(250, 250), new Vector2(mouseState.X, mouseState.Y));
-                testParticleSystem.Emit(new Vector2(mouseState.X, mouseState.Y));
+                particleSystem.Emit(inputManager.GetMousePosition());
             }
 
             base.Update(gameTime);
@@ -129,7 +132,7 @@ namespace ParticleEngine
             GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, "Free particles: " + testParticleSystem.FreeParticleCount, new Vector2(10, 30), Color.White);
+            spriteBatch.DrawString(font, "Free particles: " + particleSystem.FreeParticleCount, new Vector2(10, 30), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);

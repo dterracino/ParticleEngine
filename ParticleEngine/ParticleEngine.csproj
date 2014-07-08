@@ -35,7 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ParticleTest.cs" />
+    <Compile Include="ParticleTestWindow.cs" />
     <Compile Include="Modifiers\AngleModifier.cs" />
     <Compile Include="Modifiers\ColorModifier.cs" />
     <Compile Include="Modifiers\DirectionAngleModifier.cs" />
@@ -44,12 +44,11 @@
     <Compile Include="Modifiers\ScaleModifier.cs" />
     <Compile Include="Modifiers\SpeedModifier.cs" />
     <Compile Include="ParticleSystem\GlowParticleSystem.cs" />
-    <Compile Include="Modifiers\IModifier.cs" />
-    <Compile Include="ParticleSystem\Particle.cs" />
-    <Compile Include="ParticleSystem\ParticleSystem.cs" />
+    <Compile Include="IModifier.cs" />
+    <Compile Include="Particle.cs" />
+    <Compile Include="ParticleSystem.cs" />
     <Compile Include="ParticleSystem\SpiralParticleSystem.cs" />
-    <Compile Include="ParticleSystem\TestParticleSystem.cs" />
-    <Compile Include="ParticleSystem\WeaponParticleSystem.cs" />
+    <Compile Include="ParticleSystem\PlasmaParticleSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

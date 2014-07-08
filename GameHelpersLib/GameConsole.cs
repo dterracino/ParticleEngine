@@ -32,7 +32,7 @@ using System.Text;
 
 namespace GameHelpersLib
 {
-    public class XNAConsole : DrawableGameComponent
+    public class GameConsole : DrawableGameComponent
     {
         private enum ConsoleState { Closed, Closing, Open, Opening }
 
@@ -49,7 +49,7 @@ namespace GameHelpersLib
         private double stateStartTime;
         private InputManager input;
 
-        public XNAConsole(Game game)
+        public GameConsole(Game game, InputManager inputManager)
             : base(game)
         {
             Visible = false;
@@ -60,7 +60,7 @@ namespace GameHelpersLib
             consoleState = ConsoleState.Closed;
             stateStartTime = 0;
 
-            input = new InputManager();
+            input = inputManager;
             outputBuffer = new StringBuilder(1024);
             stringWriter = new StringWriter(outputBuffer);
             Console.SetOut(stringWriter);
@@ -83,8 +83,6 @@ namespace GameHelpersLib
 
         public override void Update(GameTime gameTime)
         {
-            input.Update();
-
             double now = gameTime.TotalGameTime.TotalSeconds;
             double elapsedTime = gameTime.ElapsedGameTime.TotalMilliseconds;
 

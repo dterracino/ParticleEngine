@@ -109,5 +109,7 @@ namespace ParticleEngine
 
             return null;
         }
+
+        public abstract void Emit(Vector2 emitterLocation);
     }
 }

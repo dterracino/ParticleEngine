@@ -46,7 +46,7 @@
     <Compile Include="MathHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Timer.cs" />
-    <Compile Include="XNAConsole.cs" />
+    <Compile Include="GameConsole.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">

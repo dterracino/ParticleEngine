@@ -96,8 +96,7 @@ namespace ParticleEngine
 
                 if (RectangleLimitAction == ParticleRectangleLimitAction.Kill)
                 {
-                    if (properPosition.X < -properWidth || properPosition.X > RectangleLimit.Width ||
-                    properPosition.Y < -properHeight || properPosition.Y > RectangleLimit.Height)
+                    if (properPosition.X < -properWidth || properPosition.X > RectangleLimit.Width || properPosition.Y < -properHeight || properPosition.Y > RectangleLimit.Height)
                     {
                         IsActive = false;
                     }

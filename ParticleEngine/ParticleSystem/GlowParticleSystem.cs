@@ -13,9 +13,9 @@ namespace ParticleEngine
             AddTextureNames("BeamBlurred");
         }
 
-        public void Emit(Vector2 emitterLocation)
+        public override void Emit(Vector2 emitterLocation)
         {
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Particle p = GetFreeParticle();
 
@@ -29,11 +29,12 @@ namespace ParticleEngine
                     p.AutoAngle = true;
                     p.Speed = MathHelpers.Random.Next(1, 700);
                     p.Scale = MathHelpers.Random.NextFloat(0.1f, 3f);
+                    p.Color = MathHelpers.Random.NextColor(Color.White, Color.CornflowerBlue).ToVector3();
                     p.Modifiers = new List<IModifier> {
-                        new ColorModifier
+                        new OpacityModifier
                         {
-                            InitialColor = MathHelpers.Random.NextColor(Color.White, Color.Green).ToVector3(),
-                            FinalColor = Color.Black.ToVector3()
+                            InitialOpacity = 1,
+                            FinalOpacity = 0
                         }
                     };
                 }
