@@ -8,8 +8,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("GameHelpersLib")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyDescription("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyCopyright("Copyright (C) 2014 Jaex")]
+[assembly: AssemblyCompany("Jaex")]
+[assembly: AssemblyCopyright("Copyright (C) Jaex")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
