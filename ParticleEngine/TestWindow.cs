@@ -35,11 +35,19 @@ namespace ParticleEngine
         public static int Width { get; set; }
         public static int Height { get; set; }
 
+        public static Rectangle Bounds
+        {
+            get
+            {
+                return new Rectangle(0, 0, Width, Height);
+            }
+        }
+
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
         private FrameRateCounter frameRateCounter;
         private GameConsole console;
-        private IParticleEmitter emitter;
+        private ParticleEmitter emitter;
 
         public TestWindow()
         {
@@ -96,7 +104,7 @@ namespace ParticleEngine
 
             if (IsActive && Input.IsMouseDown(MouseButtons.Left))
             {
-                emitter.Emit(Input.GetMousePosition());
+                emitter.Emit(gameTime, Input.GetMousePosition());
             }
 
             ParticleSystem.Update(gameTime);

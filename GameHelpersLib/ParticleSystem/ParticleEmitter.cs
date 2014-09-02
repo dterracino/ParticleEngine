@@ -23,11 +23,33 @@
 #endregion License Information (GPL v3)
 
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace GameHelpersLib
 {
-    public interface IParticleEmitter
+    public abstract class ParticleEmitter
     {
-        void Emit(Vector2 position);
+        protected string TextureName { get; set; }
+
+        private Texture2D texture;
+
+        protected Texture2D Texture
+        {
+            get
+            {
+                if (texture == null)
+                {
+                    texture = Resources.Textures[TextureName];
+                }
+
+                return texture;
+            }
+        }
+
+        public abstract void Emit(GameTime gameTime, Vector2 position);
     }
 }

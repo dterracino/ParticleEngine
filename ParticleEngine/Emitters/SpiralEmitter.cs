@@ -29,32 +29,27 @@ using System.Collections.Generic;
 
 namespace ParticleEngine
 {
-    public class SpiralEmitter : IParticleEmitter
+    public class SpiralEmitter : ParticleEmitter
     {
-        private Texture2D texture;
         private float angle;
 
-        public void Emit(Vector2 position)
+        public SpiralEmitter()
         {
-            for (int i = 0; i < 50; i++)
+            TextureName = "Particle005";
+        }
+
+        public override void Emit(GameTime gameTime, Vector2 position)
+        {
+            foreach (Particle p in ParticleSystem.GetFreeParticles(50))
             {
-                Particle p = ParticleSystem.GetFreeParticle();
-
-                if (p == null) break;
-
-                if (texture == null)
-                {
-                    texture = Resources.Textures["Particle005"];
-                }
-
-                p.Texture = texture;
+                p.Texture = Texture;
                 p.Position = position;
                 p.Direction = MathHelpers.RadianToVector2(MathHelpers.Random.NextAngle());
-                p.Speed = 500;
-                p.Lifetime = MathHelpers.Random.NextFloat(1.0f, 2.0f);
+                p.Speed = 500f;
+                p.Lifetime = MathHelpers.Random.NextFloat(1f, 2f);
                 p.Angle = MathHelpers.Random.NextAngle();
                 p.AutoAngle = true;
-                p.RectangleLimit = new Rectangle(0, 0, TestWindow.Width, TestWindow.Height).Offset(5);
+                p.RectangleLimit = TestWindow.Bounds.Offset(10);
                 p.RectangleLimitAction = ParticleRectangleLimitAction.Bounce;
                 p.Scale = MathHelpers.Random.NextFloat(0.1f, 1f);
                 p.Color = MathHelpers.Random.NextColor(Color.DarkBlue, Color.CornflowerBlue).ToVector3();
@@ -62,12 +57,12 @@ namespace ParticleEngine
                     new DirectionModifier
                     {
                         InitialDirection = MathHelpers.RadianToVector2(angle),
-                        FinalDirection = MathHelpers.DegreeToVector2(90, 2)
+                        FinalDirection = MathHelpers.DegreeToVector2(90f, 2f)
                     },
                     new OpacityModifier
                     {
-                        InitialOpacity = 1,
-                        FinalOpacity = 0
+                        InitialOpacity = 1f,
+                        FinalOpacity = 0f
                     }
                 };
 

@@ -29,37 +29,31 @@ using System.Collections.Generic;
 
 namespace ParticleEngine
 {
-    public class PlasmaEmitter : IParticleEmitter
+    public class PlasmaEmitter : ParticleEmitter
     {
-        private Texture2D texture;
-
-        public void Emit(Vector2 position)
+        public PlasmaEmitter()
         {
-            for (int i = 0; i < 3; i++)
+            TextureName = "Gradient";
+        }
+
+        public override void Emit(GameTime gameTime, Vector2 position)
+        {
+            foreach (Particle p in ParticleSystem.GetFreeParticles(3))
             {
-                Particle p = ParticleSystem.GetFreeParticle();
-
-                if (p == null) break;
-
-                if (texture == null)
-                {
-                    texture = Resources.Textures["Gradient"];
-                }
-
-                p.Texture = texture;
+                p.Texture = Texture;
                 p.Position = position;
                 p.Lifetime = 0.5f;
                 p.Color = MathHelpers.Random.NextColor().ToVector3();
                 p.Speed = MathHelpers.Random.Next(100, 500);
                 p.Scale = MathHelpers.Random.NextFloat(0.5f, 1f);
                 p.Direction = MathHelpers.RadianToVector2(MathHelpers.Random.NextAngle());
-                p.RectangleLimit = new Rectangle(0, 0, TestWindow.Width, TestWindow.Height);
+                p.RectangleLimit = TestWindow.Bounds;
                 p.RectangleLimitAction = ParticleRectangleLimitAction.Kill;
                 p.Modifiers = new List<IParticleModifier> {
                     new OpacityModifier
                     {
-                        InitialOpacity = 1,
-                        FinalOpacity = 0
+                        InitialOpacity = 1f,
+                        FinalOpacity = 0f
                     }
                 };
             }

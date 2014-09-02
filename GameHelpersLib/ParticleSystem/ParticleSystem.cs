@@ -71,6 +71,22 @@ namespace GameHelpersLib
             return null;
         }
 
+        public static IEnumerable<Particle> GetFreeParticles(int count)
+        {
+            List<Particle> particles = new List<Particle>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                Particle particle = GetFreeParticle();
+
+                if (particle == null) break;
+
+                particles.Add(particle);
+            }
+
+            return particles;
+        }
+
         public static void Update(GameTime gameTime)
         {
             if (Enabled)

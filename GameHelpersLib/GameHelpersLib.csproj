@@ -44,7 +44,6 @@
     <Compile Include="FrameRateCounter.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="MathHelpers.cs" />
-    <Compile Include="ParticleSystem\IParticleEmitter.cs" />
     <Compile Include="ParticleSystem\IParticleModifier.cs" />
     <Compile Include="ParticleSystem\Modifiers\AngleModifier.cs" />
     <Compile Include="ParticleSystem\Modifiers\ColorModifier.cs" />
@@ -54,6 +53,7 @@
     <Compile Include="ParticleSystem\Modifiers\ScaleModifier.cs" />
     <Compile Include="ParticleSystem\Modifiers\SpeedModifier.cs" />
     <Compile Include="ParticleSystem\Particle.cs" />
+    <Compile Include="ParticleSystem\ParticleEmitter.cs" />
     <Compile Include="ParticleSystem\ParticleSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources.cs" />
