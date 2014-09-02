@@ -127,7 +127,7 @@ namespace ParticleEngine
 
             base.Update(gameTime);
 
-            Window.Title = string.Format("{0} [FPS: {1}] [Free particles: {2} / {3}]", Title, frameRateCounter.CurrentFrameRate, ParticleSystem.FreeParticleCount, ParticleSystem.ParticleLimit);
+            Window.Title = string.Format("{0} [FPS: {1}] [Particles: {2} / {3}]", Title, frameRateCounter.CurrentFrameRate, ParticleSystem.ParticleCount, ParticleSystem.ParticleLimit);
         }
 
         protected override void Draw(GameTime gameTime)

@@ -80,6 +80,7 @@ namespace GameHelpersLib
             RectangleLimitAction = ParticleRectangleLimitAction.None;
             Lifetime = 1;
             Scale = 1;
+            Direction = Vector2.Zero;
             Opacity = 1;
             Modifiers = new List<IParticleModifier>();
             TimeSinceStart = 0;

@@ -34,6 +34,14 @@ namespace GameHelpersLib
 
         public static bool Enabled { get; set; }
 
+        public static int ParticleCount
+        {
+            get
+            {
+                return ParticleLimit - FreeParticleCount;
+            }
+        }
+
         public static int FreeParticleCount
         {
             get
@@ -47,8 +55,6 @@ namespace GameHelpersLib
 
         static ParticleSystem()
         {
-            Enabled = true;
-
             particles = new Particle[ParticleLimit];
             freeParticles = new Queue<Particle>(ParticleLimit);
 
@@ -57,6 +63,8 @@ namespace GameHelpersLib
                 particles[i] = new Particle();
                 freeParticles.Enqueue(particles[i]);
             }
+
+            Enabled = true;
         }
 
         public static Particle GetFreeParticle()
