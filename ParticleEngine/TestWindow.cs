@@ -47,7 +47,7 @@ namespace ParticleEngine
         private SpriteBatch spriteBatch;
         private FrameRateCounter frameRateCounter;
         private GameConsole console;
-        private ParticleEmitter emitter;
+        private ParticleEmitter emitter, emitter2, emitter3;
 
         public TestWindow()
         {
@@ -58,21 +58,24 @@ namespace ParticleEngine
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = Width;
             graphics.PreferredBackBufferHeight = Height;
+            //graphics.PreferMultiSampling = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             Window.Title = Title;
+        }
 
+        protected override void Initialize()
+        {
             frameRateCounter = new FrameRateCounter(this);
             Components.Add(frameRateCounter);
 
             console = new GameConsole(this);
             Components.Add(console);
 
-            emitter = new SpiralEmitter(); //new PlasmaEmitter();
-        }
+            emitter = new SpiralEmitter();
+            emitter2 = new PlasmaEmitter();
+            emitter3 = new TestEmitter();
 
-        protected override void Initialize()
-        {
             base.Initialize();
         }
 
@@ -82,8 +85,8 @@ namespace ParticleEngine
 
             Resources.LoadContent(Content);
 
-            frameRateCounter.LoadFont(Resources.Fonts["Font"]);
-            console.LoadFont(Resources.Fonts["Font"]);
+            //frameRateCounter.LoadFont(Resources.Fonts["MainFont"]);
+            console.LoadFont(Resources.Fonts["MainFont"]);
 
             base.LoadContent();
         }
@@ -97,14 +100,27 @@ namespace ParticleEngine
         {
             Input.Update();
 
-            if (Input.IsKeyDown(Keys.Escape))
+            if (IsActive)
             {
-                Exit();
-            }
+                if (Input.IsKeyDown(Keys.Escape))
+                {
+                    Exit();
+                }
 
-            if (IsActive && Input.IsMouseDown(MouseButtons.Left))
-            {
-                emitter.Emit(gameTime, Input.GetMousePosition());
+                if (Input.IsMouseDown(MouseButtons.Left))
+                {
+                    emitter.Emit(gameTime, Input.GetMousePosition());
+                }
+
+                if (Input.IsMouseDown(MouseButtons.Right))
+                {
+                    emitter2.Emit(gameTime, Input.GetMousePosition());
+                }
+
+                if (Input.IsMouseDown(MouseButtons.Middle))
+                {
+                    emitter3.Emit(gameTime, Input.GetMousePosition());
+                }
             }
 
             ParticleSystem.Update(gameTime);

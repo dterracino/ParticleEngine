@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Emitters\PlasmaEmitter.cs" />
     <Compile Include="Emitters\SpiralEmitter.cs" />
+    <Compile Include="Emitters\TestEmitter.cs" />
     <Compile Include="TestWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

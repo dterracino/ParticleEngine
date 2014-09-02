@@ -45,7 +45,7 @@ namespace ParticleEngine
                 p.Lifetime = 0.5f;
                 p.Color = MathHelpers.Random.NextColor().ToVector3();
                 p.Speed = MathHelpers.Random.Next(100, 500);
-                p.Scale = MathHelpers.Random.NextFloat(0.5f, 1f);
+                p.Scale = MathHelpers.Random.NextFloat(1f, 2f);
                 p.Direction = MathHelpers.RadianToVector2(MathHelpers.Random.NextAngle());
                 p.RectangleLimit = TestWindow.Bounds;
                 p.RectangleLimitAction = ParticleRectangleLimitAction.Kill;
