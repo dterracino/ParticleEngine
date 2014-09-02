@@ -22,19 +22,16 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
-
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class DirectionAngleModifier : IModifier
+    public class AngleModifier : IParticleModifier
     {
-        public float InitialMovementAngle { get; set; }
-        public float MovementAngleOffset { get; set; }
+        public float InitialAngle { get; set; }
+        public float FinalAngle { get; set; }
 
         public void Apply(Particle particle)
         {
-            float directionAngle = InitialMovementAngle + (MovementAngleOffset * particle.TimePercentage);
-            particle.Direction = MathHelpers.RadianToVector2(directionAngle);
+            particle.Angle = MathHelpers.Lerp(InitialAngle, FinalAngle, particle.TimePercentage);
         }
     }
 }

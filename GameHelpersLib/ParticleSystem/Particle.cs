@@ -22,12 +22,11 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
-namespace ParticleEngine
+namespace GameHelpersLib
 {
     public enum ParticleRectangleLimitAction
     {
@@ -36,7 +35,21 @@ namespace ParticleEngine
 
     public class Particle
     {
-        public Texture2D Texture { get; private set; }
+        private Texture2D texture;
+
+        public Texture2D Texture
+        {
+            get
+            {
+                return texture;
+            }
+            set
+            {
+                texture = value;
+                Origin = new Vector2((float)texture.Width / 2, (float)texture.Height / 2);
+                SourceRectangle = new Rectangle(0, 0, texture.Width, texture.Height);
+            }
+        }
 
         public Vector2 Position { get; set; }
         public Vector2 Direction { get; set; }
@@ -59,35 +72,27 @@ namespace ParticleEngine
         public bool IsActive { get; private set; }
         public Rectangle SourceRectangle { get; private set; }
 
-        public List<IModifier> Modifiers { get; set; }
+        public List<IParticleModifier> Modifiers { get; set; }
 
-        public void Initialize(Texture2D texture)
+        public void Initialize()
         {
-            ChangeTexture(texture);
             RectangleLimit = Rectangle.Empty;
             RectangleLimitAction = ParticleRectangleLimitAction.None;
             Lifetime = 1;
             Scale = 1;
             Opacity = 1;
-            Modifiers = new List<IModifier>();
+            Modifiers = new List<IParticleModifier>();
             TimeSinceStart = 0;
             IsActive = true;
-        }
-
-        public void ChangeTexture(Texture2D texture)
-        {
-            Texture = texture;
-            Origin = new Vector2((float)Texture.Width / 2, (float)Texture.Height / 2);
-            SourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
         }
 
         public void Update(float deltaTime)
         {
             TimeSinceStart += deltaTime;
 
-            foreach (IModifier modifier in Modifiers)
+            for (int i = 0; i < Modifiers.Count; i++)
             {
-                modifier.Apply(this);
+                Modifiers[i].Apply(this);
             }
 
             IsActive = TimeSinceStart < Lifetime && Scale > 0;
@@ -109,7 +114,7 @@ namespace ParticleEngine
             }
         }
 
-        public void CheckRectangleLimit()
+        private void CheckRectangleLimit()
         {
             if (RectangleLimitAction != ParticleRectangleLimitAction.None && !RectangleLimit.IsEmpty)
             {
@@ -154,7 +159,10 @@ namespace ParticleEngine
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, SourceRectangle, new Color(Color.X, Color.Y, Color.Z, Opacity), Angle, Origin, Scale, SpriteEffects.None, 0);
+            if (Texture != null)
+            {
+                spriteBatch.Draw(Texture, Position, SourceRectangle, new Color(Color.X, Color.Y, Color.Z, Opacity), Angle, Origin, Scale, SpriteEffects.None, 0);
+            }
         }
     }
 }

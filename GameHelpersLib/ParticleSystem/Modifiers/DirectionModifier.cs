@@ -24,9 +24,9 @@
 
 using Microsoft.Xna.Framework;
 
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class DirectionModifier : IModifier
+    public class DirectionModifier : IParticleModifier
     {
         public Vector2 InitialDirection { get; set; }
         public Vector2 FinalDirection { get; set; }

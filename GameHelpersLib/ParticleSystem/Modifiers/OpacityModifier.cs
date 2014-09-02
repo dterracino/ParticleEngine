@@ -22,11 +22,9 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
-
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class OpacityModifier : IModifier
+    public class OpacityModifier : IParticleModifier
     {
         public float InitialOpacity { get; set; }
         public float FinalOpacity { get; set; }

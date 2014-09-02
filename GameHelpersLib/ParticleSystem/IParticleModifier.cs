@@ -22,23 +22,10 @@
 
 #endregion License Information (GPL v3)
 
-using System;
-
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-#if WINDOWS || LINUX
-
-    public static class Program
+    public interface IParticleModifier
     {
-        [STAThread]
-        private static void Main()
-        {
-            using (TestWindow game = new TestWindow())
-            {
-                game.Run();
-            }
-        }
+        void Apply(Particle particle);
     }
-
-#endif
 }

@@ -22,10 +22,12 @@
 
 #endregion License Information (GPL v3)
 
-namespace ParticleEngine
+using Microsoft.Xna.Framework;
+
+namespace GameHelpersLib
 {
-    public interface IModifier
+    public interface IParticleEmitter
     {
-        void Apply(Particle particle);
+        void Emit(Vector2 position);
     }
 }

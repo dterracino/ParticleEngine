@@ -22,18 +22,18 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
+using Microsoft.Xna.Framework;
 
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class ScaleModifier : IModifier
+    public class ColorModifier : IParticleModifier
     {
-        public float InitialScale { get; set; }
-        public float FinalScale { get; set; }
+        public Vector3 InitialColor { get; set; }
+        public Vector3 FinalColor { get; set; }
 
         public void Apply(Particle particle)
         {
-            particle.Scale = MathHelpers.Lerp(InitialScale, FinalScale, particle.TimePercentage);
+            particle.Color = Vector3.Lerp(InitialColor, FinalColor, particle.TimePercentage);
         }
     }
 }

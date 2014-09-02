@@ -32,14 +32,14 @@ namespace GameHelpersLib
         Left, Right, Middle
     }
 
-    public class InputManager
+    public static class Input
     {
-        private KeyboardState currentKeyboardState;
-        private KeyboardState previousKeyboardState;
-        private MouseState currentMouseState;
-        private MouseState previousMouseState;
+        private static KeyboardState currentKeyboardState;
+        private static KeyboardState previousKeyboardState;
+        private static MouseState currentMouseState;
+        private static MouseState previousMouseState;
 
-        public bool IsShiftDown
+        public static bool IsShiftDown
         {
             get
             {
@@ -47,7 +47,7 @@ namespace GameHelpersLib
             }
         }
 
-        public bool IsControlDown
+        public static bool IsControlDown
         {
             get
             {
@@ -55,7 +55,7 @@ namespace GameHelpersLib
             }
         }
 
-        public bool IsAltDown
+        public static bool IsAltDown
         {
             get
             {
@@ -63,10 +63,10 @@ namespace GameHelpersLib
             }
         }
 
-        public bool UpdateKeyboardState { get; set; }
-        public bool UpdateMouseState { get; set; }
+        public static bool UpdateKeyboardState { get; set; }
+        public static bool UpdateMouseState { get; set; }
 
-        public InputManager()
+        static Input()
         {
             currentKeyboardState = new KeyboardState();
             previousKeyboardState = new KeyboardState();
@@ -77,7 +77,7 @@ namespace GameHelpersLib
             UpdateMouseState = true;
         }
 
-        public void Update()
+        public static void Update()
         {
             if (UpdateKeyboardState)
             {
@@ -92,21 +92,21 @@ namespace GameHelpersLib
             }
         }
 
-        public bool IsKeyDown(Keys key, bool isFirst = false)
+        public static bool IsKeyDown(Keys key, bool isFirst = false)
         {
             bool result = currentKeyboardState.IsKeyDown(key);
             if (isFirst) result &= previousKeyboardState.IsKeyUp(key);
             return result;
         }
 
-        public bool IsKeyUp(Keys key, bool isFirst = false)
+        public static bool IsKeyUp(Keys key, bool isFirst = false)
         {
             bool result = currentKeyboardState.IsKeyUp(key);
             if (isFirst) result &= previousKeyboardState.IsKeyDown(key);
             return result;
         }
 
-        public bool IsMouseDown(MouseButtons button, bool isFirst = false)
+        public static bool IsMouseDown(MouseButtons button, bool isFirst = false)
         {
             bool result;
 
@@ -130,7 +130,7 @@ namespace GameHelpersLib
             return result;
         }
 
-        public bool IsMouseUp(MouseButtons button, bool isFirst = false)
+        public static bool IsMouseUp(MouseButtons button, bool isFirst = false)
         {
             bool result;
 
@@ -154,12 +154,12 @@ namespace GameHelpersLib
             return result;
         }
 
-        public Vector2 GetMousePosition()
+        public static Vector2 GetMousePosition()
         {
             return new Vector2(currentMouseState.X, currentMouseState.Y);
         }
 
-        public void SetMousePosition(Vector2 pos)
+        public static void SetMousePosition(Vector2 pos)
         {
             Mouse.SetPosition((int)pos.X, (int)pos.Y);
         }

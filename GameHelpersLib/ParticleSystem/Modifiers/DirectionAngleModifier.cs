@@ -22,18 +22,17 @@
 
 #endregion License Information (GPL v3)
 
-using Microsoft.Xna.Framework;
-
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class ColorModifier : IModifier
+    public class DirectionAngleModifier : IParticleModifier
     {
-        public Vector3 InitialColor { get; set; }
-        public Vector3 FinalColor { get; set; }
+        public float InitialMovementAngle { get; set; }
+        public float MovementAngleOffset { get; set; }
 
         public void Apply(Particle particle)
         {
-            particle.Color = Vector3.Lerp(InitialColor, FinalColor, particle.TimePercentage);
+            float directionAngle = InitialMovementAngle + (MovementAngleOffset * particle.TimePercentage);
+            particle.Direction = MathHelpers.RadianToVector2(directionAngle);
         }
     }
 }

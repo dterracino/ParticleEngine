@@ -22,18 +22,16 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
-
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class AngleModifier : IModifier
+    public class ScaleModifier : IParticleModifier
     {
-        public float InitialAngle { get; set; }
-        public float FinalAngle { get; set; }
+        public float InitialScale { get; set; }
+        public float FinalScale { get; set; }
 
         public void Apply(Particle particle)
         {
-            particle.Angle = MathHelpers.Lerp(InitialAngle, FinalAngle, particle.TimePercentage);
+            particle.Scale = MathHelpers.Lerp(InitialScale, FinalScale, particle.TimePercentage);
         }
     }
 }

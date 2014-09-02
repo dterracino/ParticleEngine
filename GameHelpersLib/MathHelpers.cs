@@ -29,20 +29,22 @@ namespace GameHelpersLib
 {
     public static class MathHelpers
     {
-        public const float RadianPI = 57.29578f; // 180.0 / Math.PI
-        public const float DegreePI = 0.01745329f; // Math.PI / 180.0
-        public const float TwoPI = 6.28319f; // Math.PI * 2
+        public const float Pi = 3.14159f;
+        public const float RadianPi = 180f / Pi;
+        public const float DegreePi = Pi / 180f;
+        public const float TwoPi = Pi * 2;
+        public const float HalfPi = Pi / 2;
 
         public static readonly Random Random = new Random();
 
         public static float RadianToDegree(float radian)
         {
-            return radian * RadianPI;
+            return radian * RadianPi;
         }
 
         public static float DegreeToRadian(float degree)
         {
-            return degree * DegreePI;
+            return degree * DegreePi;
         }
 
         public static Vector2 RadianToVector2(float radian)
@@ -97,7 +99,7 @@ namespace GameHelpersLib
 
         public static float Lerp(float value1, float value2, float amount)
         {
-            return value1 + (value2 - value1) * amount;
+            return value1 + ((value2 - value1) * amount);
         }
     }
 }

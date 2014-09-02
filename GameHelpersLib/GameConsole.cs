@@ -47,20 +47,18 @@ namespace GameHelpersLib
         private Texture2D background, border;
         private ConsoleState consoleState;
         private double stateStartTime;
-        private InputManager input;
 
-        public GameConsole(Game game, InputManager inputManager)
+        public GameConsole(Game game)
             : base(game)
         {
             Visible = false;
 
             AnimationTime = 0.3f;
-            MaxLineCount = 20;
+            MaxLineCount = 25;
 
             consoleState = ConsoleState.Closed;
             stateStartTime = 0;
 
-            input = inputManager;
             outputBuffer = new StringBuilder(1024);
             stringWriter = new StringWriter(outputBuffer);
             Console.SetOut(stringWriter);
@@ -104,14 +102,14 @@ namespace GameHelpersLib
                     }
                     break;
                 case ConsoleState.Open:
-                    if (input.IsKeyDown(Keys.OemTilde, true))
+                    if (Input.IsKeyDown(Keys.OemTilde, true))
                     {
                         consoleState = ConsoleState.Closing;
                         stateStartTime = now;
                     }
                     break;
                 case ConsoleState.Closed:
-                    if (input.IsKeyDown(Keys.OemTilde, true))
+                    if (Input.IsKeyDown(Keys.OemTilde, true))
                     {
                         consoleState = ConsoleState.Opening;
                         stateStartTime = now;
@@ -133,11 +131,11 @@ namespace GameHelpersLib
 
             if (consoleState == ConsoleState.Opening)
             {
-                consoleYOffset = (int)MathHelper.Lerp(-consoleHeight, 0, (float)Math.Sqrt((float)(now - stateStartTime) / (float)AnimationTime));
+                consoleYOffset = (int)MathHelpers.Lerp(-consoleHeight, 0, (float)Math.Sqrt((float)(now - stateStartTime) / (float)AnimationTime));
             }
             else if (consoleState == ConsoleState.Closing)
             {
-                consoleYOffset = (int)MathHelper.Lerp(0, -consoleHeight, ((float)(now - stateStartTime) / (float)AnimationTime) * ((float)(now - stateStartTime) / (float)AnimationTime));
+                consoleYOffset = (int)MathHelpers.Lerp(0, -consoleHeight, ((float)(now - stateStartTime) / (float)AnimationTime) * ((float)(now - stateStartTime) / (float)AnimationTime));
             }
 
             lineWidth = (int)((consoleWidth - 20) / spriteFont.MeasureString("a").X) - 2;

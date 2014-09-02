@@ -60,7 +60,37 @@ namespace GameHelpersLib
 
         public static float NextAngle(this Random rand)
         {
-            return rand.NextFloat(MathHelpers.TwoPI);
+            return rand.NextFloat(MathHelpers.TwoPi);
+        }
+
+        public static Vector2 Offset(this Vector2 vector, int offset)
+        {
+            return new Vector2(vector.X + offset, vector.Y + offset);
+        }
+
+        public static Rectangle Offset(this Rectangle rect, int offset)
+        {
+            return new Rectangle(rect.X - offset, rect.Y - offset, rect.Width + offset * 2, rect.Height + offset * 2);
+        }
+
+        public static Rectangle LocationOffset(this Rectangle rect, int x, int y)
+        {
+            return new Rectangle(rect.X + x, rect.Y + y, rect.Width, rect.Height);
+        }
+
+        public static Rectangle LocationOffset(this Rectangle rect, int offset)
+        {
+            return rect.LocationOffset(offset, offset);
+        }
+
+        public static Rectangle SizeOffset(this Rectangle rect, int width, int height)
+        {
+            return new Rectangle(rect.X, rect.Y, rect.Width + width, rect.Height + height);
+        }
+
+        public static Rectangle SizeOffset(this Rectangle rect, int offset)
+        {
+            return rect.SizeOffset(offset, offset);
         }
     }
 }

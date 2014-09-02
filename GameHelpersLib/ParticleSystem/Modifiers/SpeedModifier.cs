@@ -22,11 +22,9 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
-
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class SpeedModifier : IModifier
+    public class SpeedModifier : IParticleModifier
     {
         public float InitialSpeed { get; set; }
         public float FinalSpeed { get; set; }

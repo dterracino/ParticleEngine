@@ -31,6 +31,7 @@ namespace GameHelpersLib
     public class FrameRateCounter : DrawableGameComponent
     {
         public int CurrentFrameRate { get; private set; }
+        public bool RenderOnScreen { get; set; }
         public Vector2 Position { get; set; }
         public Color Color { get; set; }
         public Vector2 ShadowPosition { get; set; }
@@ -42,9 +43,16 @@ namespace GameHelpersLib
         private TimeSpan elapsedTime = TimeSpan.Zero;
         private readonly TimeSpan oneSecond = TimeSpan.FromSeconds(1);
 
+        public FrameRateCounter(Game game)
+            : base(game)
+        {
+            RenderOnScreen = false;
+        }
+
         public FrameRateCounter(Game game, Vector2 position, Color color, Color shadowColor)
             : base(game)
         {
+            RenderOnScreen = true;
             Position = position;
             ShadowPosition = new Vector2(Position.X + 1, Position.Y + 1);
             Color = color;
@@ -77,7 +85,7 @@ namespace GameHelpersLib
         {
             frameCounter++;
 
-            if (spriteFont != null)
+            if (RenderOnScreen && spriteFont != null)
             {
                 string text = "FPS: " + CurrentFrameRate;
 
