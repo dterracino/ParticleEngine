@@ -75,8 +75,8 @@ namespace GameHelpersLib
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            background = DrawingHelper.CreateOnePixelTexture(GraphicsDevice, new Color(0, 0, 0, 175));
-            border = DrawingHelper.CreateOnePixelTexture(GraphicsDevice, Color.White);
+            background = DrawingHelpers.CreateOnePixelTexture(GraphicsDevice, new Color(0, 0, 0, 175));
+            border = DrawingHelpers.CreateOnePixelTexture(GraphicsDevice, Color.White);
         }
 
         public override void Update(GameTime gameTime)
@@ -156,7 +156,7 @@ namespace GameHelpersLib
 
             for (int i = 0; i < lines.Count && i <= MaxLineCount; i++)
             {
-                DrawingHelper.DrawTextWithShadow(spriteBatch, lines[i], new Vector2(consoleXOffset + 10, consoleYOffset + consoleHeight - 10 - spriteFont.LineSpacing * i),
+                DrawingHelpers.DrawTextWithShadow(spriteBatch, lines[i], new Vector2(consoleXOffset + 10, consoleYOffset + consoleHeight - 10 - spriteFont.LineSpacing * i),
                     spriteFont, Color.White, Color.Black);
             }
 

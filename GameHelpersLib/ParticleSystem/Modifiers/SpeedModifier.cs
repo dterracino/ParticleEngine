@@ -29,7 +29,7 @@ namespace GameHelpersLib
         public float InitialSpeed { get; set; }
         public float FinalSpeed { get; set; }
 
-        public void Apply(Particle particle)
+        public void Apply(Particle particle, float deltaTime)
         {
             particle.Speed = MathHelpers.Lerp(InitialSpeed, FinalSpeed, particle.TimePercentage);
         }

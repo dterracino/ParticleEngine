@@ -24,7 +24,6 @@
 
 using GameHelpersLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace ParticleEngine
@@ -52,7 +51,7 @@ namespace ParticleEngine
                 p.RectangleLimit = TestWindow.Bounds.Offset(10);
                 p.RectangleLimitAction = ParticleRectangleLimitAction.Bounce;
                 p.Scale = MathHelpers.Random.NextFloat(0.1f, 1f);
-                p.Color = MathHelpers.Random.NextColor(Color.DarkBlue, Color.CornflowerBlue).ToVector3();
+                p.Color = MathHelpers.Random.NextColor(Color.DarkBlue, Color.CornflowerBlue);
                 p.Modifiers = new List<IParticleModifier> {
                     new DirectionModifier
                     {

@@ -24,13 +24,14 @@
 
 using GameHelpersLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace ParticleEngine
 {
     public class PlasmaEmitter : ParticleEmitter
     {
+        private HueAnimation hueAnimation = new HueAnimation(2f);
+
         public PlasmaEmitter()
         {
             TextureName = "Gradient";
@@ -43,10 +44,30 @@ namespace ParticleEngine
                 p.Texture = Texture;
                 p.Position = position;
                 p.Lifetime = 0.5f;
-                p.Color = MathHelpers.Random.NextColor().ToVector3();
+                p.Color = hueAnimation.Next((float)gameTime.ElapsedGameTime.TotalSeconds);
                 p.Speed = MathHelpers.Random.Next(100, 500);
-                p.Scale = MathHelpers.Random.NextFloat(1f, 2f);
+                p.Scale = MathHelpers.Random.NextFloat(0.5f, 1.5f);
                 p.Direction = MathHelpers.RadianToVector2(MathHelpers.Random.NextAngle());
+                p.RectangleLimit = TestWindow.Bounds;
+                p.RectangleLimitAction = ParticleRectangleLimitAction.Kill;
+                p.Modifiers = new List<IParticleModifier> {
+                    new OpacityModifier
+                    {
+                        InitialOpacity = 1f,
+                        FinalOpacity = 0f
+                    }
+                };
+            }
+
+            foreach (Particle p in ParticleSystem.GetFreeParticles(3))
+            {
+                p.Texture = Texture;
+                p.Position = position;
+                p.Lifetime = 0.5f;
+                p.Color = MathHelpers.Random.NextColor(Color.Red, Color.Yellow);
+                p.Speed = MathHelpers.Random.Next(10, 100);
+                p.Direction = MathHelpers.RadianToVector2(MathHelpers.Random.NextAngle());
+                p.Scale = MathHelpers.Random.NextFloat(0.5f, 1.5f);
                 p.RectangleLimit = TestWindow.Bounds;
                 p.RectangleLimitAction = ParticleRectangleLimitAction.Kill;
                 p.Modifiers = new List<IParticleModifier> {

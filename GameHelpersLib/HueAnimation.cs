@@ -22,33 +22,50 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
 using Microsoft.Xna.Framework;
 
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class TestEmitter : ParticleEmitter
+    public class HueAnimation
     {
-        public TestEmitter()
+        /// <summary>
+        /// Hue step per second.
+        /// </summary>
+        public float Step { get; set; }
+
+        /// <summary>
+        /// Value between 0 and 6
+        /// </summary>
+        public float Hue { get; set; }
+
+        public float Saturation { get; set; }
+
+        public float Value { get; set; }
+
+        public HueAnimation()
         {
-            TextureName = "Square";
+            Saturation = 1f;
+            Value = 1f;
         }
 
-        public override void Emit(GameTime gameTime, Vector2 position)
+        public HueAnimation(float step)
+            : this()
         {
-            Particle p = ParticleSystem.GetFreeParticle();
+            Step = step;
+        }
 
-            if (p != null)
-            {
-                p.Texture = Texture;
-                p.Position = position;
-                p.Scale = 1f;
-                p.Lifetime = 0.1f;
-                p.Color = MathHelpers.Random.NextColor();
-                p.Opacity = 1f;
-                p.RectangleLimit = TestWindow.Bounds;
-                p.RectangleLimitAction = ParticleRectangleLimitAction.Kill;
-            }
+        public HueAnimation(float step, float hue)
+            : this()
+        {
+            Step = step;
+            Hue = hue;
+        }
+
+        public Color Next(float deltaTime)
+        {
+            Hue += Step * deltaTime;
+            Hue %= 6;
+            return Helpers.HSVToColor(Hue, Saturation, Value);
         }
     }
 }

@@ -25,55 +25,35 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace GameHelpersLib
 {
     public static class ParticleSystem
     {
-        public const int ParticleLimit = 10000;
+        public const int ParticleLimit = 30000;
 
         public static bool Enabled { get; set; }
 
-        public static int ParticleCount
-        {
-            get
-            {
-                return ParticleLimit - FreeParticleCount;
-            }
-        }
-
-        public static int FreeParticleCount
-        {
-            get
-            {
-                return freeParticles.Count;
-            }
-        }
+        public static int ParticleCount { get; private set; }
 
         private static Particle[] particles;
-        private static Queue<Particle> freeParticles;
 
         static ParticleSystem()
         {
             particles = new Particle[ParticleLimit];
-            freeParticles = new Queue<Particle>(ParticleLimit);
-
-            for (int i = 0; i < particles.Length; i++)
-            {
-                particles[i] = new Particle();
-                freeParticles.Enqueue(particles[i]);
-            }
 
             Enabled = true;
         }
 
         public static Particle GetFreeParticle()
         {
-            if (FreeParticleCount > 0)
+            if (ParticleCount < ParticleLimit)
             {
-                Particle p = freeParticles.Dequeue();
-                p.Initialize(); // Resets particle properties
-                return p;
+                Particle particle = new Particle();
+                particles[ParticleCount] = particle;
+                ParticleCount++;
+                return particle;
             }
 
             return null;
@@ -81,18 +61,17 @@ namespace GameHelpersLib
 
         public static IEnumerable<Particle> GetFreeParticles(int count)
         {
-            List<Particle> particles = new List<Particle>(count);
-
             for (int i = 0; i < count; i++)
             {
                 Particle particle = GetFreeParticle();
 
-                if (particle == null) break;
+                if (particle == null)
+                {
+                    break;
+                }
 
-                particles.Add(particle);
+                yield return particle;
             }
-
-            return particles;
         }
 
         public static void Update(GameTime gameTime)
@@ -101,17 +80,29 @@ namespace GameHelpersLib
             {
                 float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                foreach (Particle p in particles)
+                Parallel.For(0, ParticleCount, i =>
                 {
-                    if (p.IsActive)
-                    {
-                        p.Update(deltaTime);
+                    particles[i].Update(deltaTime);
+                });
 
-                        if (!p.IsActive)
-                        {
-                            freeParticles.Enqueue(p);
-                        }
-                    }
+                Cleanup();
+            }
+        }
+
+        private static void Cleanup()
+        {
+            int i = 0;
+
+            while (i < ParticleCount)
+            {
+                if (particles[i].IsActive)
+                {
+                    i++;
+                }
+                else
+                {
+                    particles[i] = particles[ParticleCount - 1];
+                    ParticleCount--;
                 }
             }
         }
@@ -120,14 +111,11 @@ namespace GameHelpersLib
         {
             if (Enabled)
             {
-                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive); // For transparent particles
+                spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.Additive);
 
-                foreach (Particle p in particles)
+                for (int i = 0; i < ParticleCount; i++)
                 {
-                    if (p.IsActive)
-                    {
-                        p.Draw(spriteBatch);
-                    }
+                    particles[i].Draw(spriteBatch);
                 }
 
                 spriteBatch.End();

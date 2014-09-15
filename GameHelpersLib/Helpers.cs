@@ -22,33 +22,50 @@
 
 #endregion License Information (GPL v3)
 
-using GameHelpersLib;
 using Microsoft.Xna.Framework;
+using System;
 
-namespace ParticleEngine
+namespace GameHelpersLib
 {
-    public class TestEmitter : ParticleEmitter
+    public static class Helpers
     {
-        public TestEmitter()
+        public static Color HSVToColor(float hue, float saturation, float value)
         {
-            TextureName = "Square";
-        }
-
-        public override void Emit(GameTime gameTime, Vector2 position)
-        {
-            Particle p = ParticleSystem.GetFreeParticle();
-
-            if (p != null)
+            if (hue == 0 && saturation == 0)
             {
-                p.Texture = Texture;
-                p.Position = position;
-                p.Scale = 1f;
-                p.Lifetime = 0.1f;
-                p.Color = MathHelpers.Random.NextColor();
-                p.Opacity = 1f;
-                p.RectangleLimit = TestWindow.Bounds;
-                p.RectangleLimitAction = ParticleRectangleLimitAction.Kill;
+                return new Color(value, value, value);
             }
+
+            float c = saturation * value;
+            float x = c * (1 - Math.Abs(hue % 2 - 1));
+            float m = value - c;
+
+            if (hue < 1)
+            {
+                return new Color(c + m, x + m, m);
+            }
+
+            if (hue < 2)
+            {
+                return new Color(x + m, c + m, m);
+            }
+
+            if (hue < 3)
+            {
+                return new Color(m, c + m, x + m);
+            }
+
+            if (hue < 4)
+            {
+                return new Color(m, x + m, c + m);
+            }
+
+            if (hue < 5)
+            {
+                return new Color(x + m, m, c + m);
+            }
+
+            return new Color(c + m, m, x + m);
         }
     }
 }

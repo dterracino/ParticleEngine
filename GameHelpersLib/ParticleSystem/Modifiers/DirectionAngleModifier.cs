@@ -29,7 +29,7 @@ namespace GameHelpersLib
         public float InitialMovementAngle { get; set; }
         public float MovementAngleOffset { get; set; }
 
-        public void Apply(Particle particle)
+        public void Apply(Particle particle, float deltaTime)
         {
             float directionAngle = InitialMovementAngle + (MovementAngleOffset * particle.TimePercentage);
             particle.Direction = MathHelpers.RadianToVector2(directionAngle);

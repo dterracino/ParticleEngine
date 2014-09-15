@@ -29,7 +29,7 @@ namespace GameHelpersLib
         public float InitialAngle { get; set; }
         public float FinalAngle { get; set; }
 
-        public void Apply(Particle particle)
+        public void Apply(Particle particle, float deltaTime)
         {
             particle.Angle = MathHelpers.Lerp(InitialAngle, FinalAngle, particle.TimePercentage);
         }

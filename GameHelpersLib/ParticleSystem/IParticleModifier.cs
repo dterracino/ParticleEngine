@@ -26,6 +26,6 @@ namespace GameHelpersLib
 {
     public interface IParticleModifier
     {
-        void Apply(Particle particle);
+        void Apply(Particle particle, float deltaTime);
     }
 }

@@ -39,9 +39,11 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="DrawingHelper.cs" />
+    <Compile Include="DrawingHelpers.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="FrameRateCounter.cs" />
+    <Compile Include="Helpers.cs" />
+    <Compile Include="HueAnimation.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="MathHelpers.cs" />
     <Compile Include="ParticleSystem\IParticleModifier.cs" />

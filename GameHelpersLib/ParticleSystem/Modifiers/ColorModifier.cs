@@ -28,12 +28,12 @@ namespace GameHelpersLib
 {
     public class ColorModifier : IParticleModifier
     {
-        public Vector3 InitialColor { get; set; }
-        public Vector3 FinalColor { get; set; }
+        public Color InitialColor { get; set; }
+        public Color FinalColor { get; set; }
 
-        public void Apply(Particle particle)
+        public void Apply(Particle particle, float deltaTime)
         {
-            particle.Color = Vector3.Lerp(InitialColor, FinalColor, particle.TimePercentage);
+            particle.Color = Color.Lerp(InitialColor, FinalColor, particle.TimePercentage);
         }
     }
 }

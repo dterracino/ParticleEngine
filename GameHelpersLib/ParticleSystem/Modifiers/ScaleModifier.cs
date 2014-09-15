@@ -29,7 +29,7 @@ namespace GameHelpersLib
         public float InitialScale { get; set; }
         public float FinalScale { get; set; }
 
-        public void Apply(Particle particle)
+        public void Apply(Particle particle, float deltaTime)
         {
             particle.Scale = MathHelpers.Lerp(InitialScale, FinalScale, particle.TimePercentage);
         }

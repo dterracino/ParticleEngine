@@ -29,7 +29,7 @@ namespace GameHelpersLib
         public float InitialOpacity { get; set; }
         public float FinalOpacity { get; set; }
 
-        public void Apply(Particle particle)
+        public void Apply(Particle particle, float deltaTime)
         {
             particle.Opacity = MathHelpers.Lerp(InitialOpacity, FinalOpacity, particle.TimePercentage);
         }

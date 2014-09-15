@@ -64,36 +64,34 @@ namespace GameHelpersLib
 
         public float Lifetime { get; set; }
         public float Scale { get; set; }
-        public Vector3 Color { get; set; }
+        public Color Color { get; set; }
         public float Opacity { get; set; }
 
         public float TimeSinceStart { get; private set; }
-        public float TimePercentage { get { return TimeSinceStart / Lifetime; } }
+
+        public float TimePercentage
+        {
+            get
+            {
+                return TimeSinceStart / Lifetime;
+            }
+        }
+
         public bool IsActive { get; private set; }
         public Rectangle SourceRectangle { get; private set; }
 
         public List<IParticleModifier> Modifiers { get; set; }
 
-        public void Initialize()
-        {
-            RectangleLimit = Rectangle.Empty;
-            RectangleLimitAction = ParticleRectangleLimitAction.None;
-            Lifetime = 1;
-            Scale = 1;
-            Direction = Vector2.Zero;
-            Opacity = 1;
-            Modifiers = new List<IParticleModifier>();
-            TimeSinceStart = 0;
-            IsActive = true;
-        }
-
         public void Update(float deltaTime)
         {
             TimeSinceStart += deltaTime;
 
-            for (int i = 0; i < Modifiers.Count; i++)
+            if (Modifiers != null)
             {
-                Modifiers[i].Apply(this);
+                for (int i = 0; i < Modifiers.Count; i++)
+                {
+                    Modifiers[i].Apply(this, deltaTime);
+                }
             }
 
             IsActive = TimeSinceStart < Lifetime && Scale > 0;
@@ -110,7 +108,7 @@ namespace GameHelpersLib
                 }
                 else
                 {
-                    Angle = MathHelpers.Vector2ToRadian(Direction) + MathHelpers.DegreeToRadian(90);
+                    Angle = MathHelpers.Vector2ToRadian(Direction);
                 }
             }
         }
@@ -160,10 +158,7 @@ namespace GameHelpersLib
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (Texture != null)
-            {
-                spriteBatch.Draw(Texture, Position, SourceRectangle, new Color(Color.X, Color.Y, Color.Z, Opacity), Angle, Origin, Scale, SpriteEffects.None, 0);
-            }
+            spriteBatch.Draw(Texture, Position, SourceRectangle, new Color(Color, Opacity), Angle, Origin, Scale, SpriteEffects.None, 0);
         }
     }
 }

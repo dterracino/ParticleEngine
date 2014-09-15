@@ -31,7 +31,7 @@ namespace GameHelpersLib
         public Vector2 InitialDirection { get; set; }
         public Vector2 FinalDirection { get; set; }
 
-        public void Apply(Particle particle)
+        public void Apply(Particle particle, float deltaTime)
         {
             particle.Direction = Vector2.Lerp(InitialDirection, FinalDirection, particle.TimePercentage);
         }

@@ -22,6 +22,7 @@
 
 #endregion License Information (GPL v3)
 
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -35,31 +36,71 @@ namespace GameHelpersLib
 
         public static Dictionary<string, SpriteFont> Fonts { get; private set; }
 
+        public static Dictionary<string, Effect> Shaders { get; private set; }
+
+        public static Dictionary<string, SoundEffect> Sounds { get; private set; }
+
         public static void LoadContent(ContentManager content)
         {
             LoadTextures(content);
             LoadFonts(content);
+            LoadShaders(content);
+            LoadSounds(content);
         }
 
         private static void LoadTextures(ContentManager content)
         {
-            Textures = new Dictionary<string, Texture2D>();
-
-            foreach (string filepath in Directory.GetFiles("Content\\Textures", "*.xnb"))
+            if (Directory.Exists("Content\\Textures"))
             {
-                string name = Path.GetFileNameWithoutExtension(filepath);
-                Textures.Add(name, content.Load<Texture2D>("Textures\\" + name));
+                Textures = new Dictionary<string, Texture2D>();
+
+                foreach (string filepath in Directory.GetFiles("Content\\Textures", "*.xnb"))
+                {
+                    string name = Path.GetFileNameWithoutExtension(filepath);
+                    Textures.Add(name, content.Load<Texture2D>("Textures\\" + name));
+                }
             }
         }
 
         private static void LoadFonts(ContentManager content)
         {
-            Fonts = new Dictionary<string, SpriteFont>();
-
-            foreach (string filepath in Directory.GetFiles("Content\\Fonts", "*.xnb"))
+            if (Directory.Exists("Content\\Fonts"))
             {
-                string name = Path.GetFileNameWithoutExtension(filepath);
-                Fonts.Add(name, content.Load<SpriteFont>("Fonts\\" + name));
+                Fonts = new Dictionary<string, SpriteFont>();
+
+                foreach (string filepath in Directory.GetFiles("Content\\Fonts", "*.xnb"))
+                {
+                    string name = Path.GetFileNameWithoutExtension(filepath);
+                    Fonts.Add(name, content.Load<SpriteFont>("Fonts\\" + name));
+                }
+            }
+        }
+
+        private static void LoadShaders(ContentManager content)
+        {
+            if (Directory.Exists("Content\\Shaders"))
+            {
+                Shaders = new Dictionary<string, Effect>();
+
+                foreach (string filepath in Directory.GetFiles("Content\\Shaders", "*.xnb"))
+                {
+                    string name = Path.GetFileNameWithoutExtension(filepath);
+                    Shaders.Add(name, content.Load<Effect>("Shaders\\" + name));
+                }
+            }
+        }
+
+        private static void LoadSounds(ContentManager content)
+        {
+            if (Directory.Exists("Content\\Sounds"))
+            {
+                Sounds = new Dictionary<string, SoundEffect>();
+
+                foreach (string filepath in Directory.GetFiles("Content\\Sounds", "*.xnb"))
+                {
+                    string name = Path.GetFileNameWithoutExtension(filepath);
+                    Sounds.Add(name, content.Load<SoundEffect>("Sounds\\" + name));
+                }
             }
         }
     }
