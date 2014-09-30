@@ -24,44 +24,32 @@
 
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 
 namespace GameHelpersLib
 {
-    public class GameTimer
+    public class Entity
     {
-        public float Interval { get; set; }
-        public TimeSpan ElapsedTime { get; private set; }
+        public Vector2 Position { get; set; }
+        public Size Size { get; set; }
+        public Vector2 Velocity { get; set; }
+        public float Speed { get; set; }
+        public ParticleEmitter Emitter { get; set; }
 
-        public float ElapsedSeconds
+        public virtual void Update(GameTime gameTime)
         {
-            get
+            if (Speed > 0)
             {
-                return (float)ElapsedTime.TotalSeconds;
-            }
-        }
-
-        public GameTimer(float interval)
-        {
-            Interval = interval;
-            Reset();
-        }
-
-        public bool Update(GameTime gameTime)
-        {
-            ElapsedTime += gameTime.ElapsedGameTime;
-
-            if (ElapsedSeconds >= Interval)
-            {
-                Reset();
-                return true;
+                Position += Velocity * Speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
 
-            return false;
-        }
-
-        public void Reset()
-        {
-            ElapsedTime = TimeSpan.Zero;
+            if (Emitter != null)
+            {
+                Emitter.Emit(gameTime, Position);
+            }
         }
     }
 }

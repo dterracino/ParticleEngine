@@ -38,6 +38,7 @@
     <Compile Include="Emitters\PlasmaEmitter.cs" />
     <Compile Include="Emitters\SpiralEmitter.cs" />
     <Compile Include="Emitters\TestEmitter.cs" />
+    <Compile Include="EntityPlasma.cs" />
     <Compile Include="TestWindow.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,6 +48,7 @@
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />

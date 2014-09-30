@@ -22,46 +22,30 @@
 
 #endregion License Information (GPL v3)
 
+using GameHelpersLib;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
 
-namespace GameHelpersLib
+namespace ParticleEngine
 {
-    public class GameTimer
+    public class EntityPlasma : Entity
     {
-        public float Interval { get; set; }
-        public TimeSpan ElapsedTime { get; private set; }
-
-        public float ElapsedSeconds
+        public EntityPlasma()
         {
-            get
-            {
-                return (float)ElapsedTime.TotalSeconds;
-            }
+            Position = new Vector2(TestWindow.Width / 2, TestWindow.Height / 2);
+            Speed = 500f;
+            Emitter = new PlasmaEmitter();
         }
 
-        public GameTimer(float interval)
+        public override void Update(GameTime gameTime)
         {
-            Interval = interval;
-            Reset();
-        }
+            Velocity = MathHelpers.LookAtVector2(Position, Input.GetMousePosition());
 
-        public bool Update(GameTime gameTime)
-        {
-            ElapsedTime += gameTime.ElapsedGameTime;
-
-            if (ElapsedSeconds >= Interval)
-            {
-                Reset();
-                return true;
-            }
-
-            return false;
-        }
-
-        public void Reset()
-        {
-            ElapsedTime = TimeSpan.Zero;
+            base.Update(gameTime);
         }
     }
 }

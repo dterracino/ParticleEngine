@@ -48,6 +48,7 @@ namespace ParticleEngine
         private FrameRateCounter frameRateCounter;
         private GameConsole console;
         private ParticleEmitter emitter, emitter2, emitter3;
+        private EntityPlasma entityPlasma;
 
         public TestWindow()
         {
@@ -55,13 +56,13 @@ namespace ParticleEngine
             Width = 1280;
             Height = 720;
 
+            Window.Title = Title;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = Width;
             graphics.PreferredBackBufferHeight = Height;
             //graphics.PreferMultiSampling = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            Window.Title = Title;
         }
 
         protected override void Initialize()
@@ -72,9 +73,10 @@ namespace ParticleEngine
             console = new GameConsole(this);
             Components.Add(console);
 
-            emitter = new SpiralEmitter();
-            emitter2 = new PlasmaEmitter();
+            emitter = new PlasmaEmitter();
+            emitter2 = new SpiralEmitter();
             emitter3 = new TestEmitter();
+            entityPlasma = new EntityPlasma();
 
             base.Initialize();
         }
@@ -107,21 +109,25 @@ namespace ParticleEngine
                     Exit();
                 }
 
+                Vector2 mousePosition = Input.GetMousePosition();
+
                 if (Input.IsMouseDown(MouseButtons.Left))
                 {
-                    emitter.Emit(gameTime, Input.GetMousePosition());
+                    emitter.Emit(gameTime, mousePosition);
                 }
 
                 if (Input.IsMouseDown(MouseButtons.Right))
                 {
-                    emitter2.Emit(gameTime, Input.GetMousePosition());
+                    emitter2.Emit(gameTime, mousePosition);
                 }
 
                 if (Input.IsMouseDown(MouseButtons.Middle))
                 {
-                    emitter3.Emit(gameTime, Input.GetMousePosition());
+                    emitter3.Emit(gameTime, mousePosition);
                 }
             }
+
+            entityPlasma.Update(gameTime);
 
             ParticleSystem.Update(gameTime);
 
