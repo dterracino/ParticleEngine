@@ -29,9 +29,9 @@ namespace GameHelpersLib
 {
     public static class MathHelpers
     {
-        public const float Pi = 3.14159f;
-        public const float RadianPi = 180f / Pi;
-        public const float DegreePi = Pi / 180f;
+        public const float Pi = 3.141593f;
+        public const float Rad2Deg = 57.29578f; // 180f / Pi;
+        public const float Deg2Rad = 0.01745329f; // Pi / 180f;
         public const float TwoPi = Pi * 2;
         public const float HalfPi = Pi / 2;
 
@@ -39,12 +39,12 @@ namespace GameHelpersLib
 
         public static float RadianToDegree(float radian)
         {
-            return radian * RadianPi;
+            return radian * Rad2Deg;
         }
 
         public static float DegreeToRadian(float degree)
         {
-            return degree * DegreePi;
+            return degree * Deg2Rad;
         }
 
         public static Vector2 RadianToVector2(float radian)
